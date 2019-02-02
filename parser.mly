@@ -8,14 +8,14 @@ open Ast
 /* File parser.mly */
 %token <int> NUM
 %token <string> STR ID
-%token INT IF WHILE SPRINT IPRINT SCAN EQ NEQ GT LT GE LE ELSE RETURN NEW
-%token PLUS MINUS TIMES DIV REM LB RB LS RS LP RP ASSIGN SEMI COMMA TYPE VOID EXPON INC PLEQ
+%token INT IF WHILE DO SPRINT IPRINT SCAN EQ NEQ GT LT GE LE ELSE RETURN NEW
+%token PLUS MINUS TIMES DIV REM LB RB LS RS LP RP ASSIGN SEMI COMMA TYPE VOID EXP INC PLEQ
 %type <Ast.stmt> prog
 
 
 %nonassoc GT LT EQ NEQ GE LE
 %left PLUS MINUS         /* lowest precedence */
-%left TIMES DIV REM        /* medium precedence */
+%left TIMES DIV REM EXP       /* medium precedence */
 %nonassoc UMINUS      /* highest precedence */
 
 
@@ -58,6 +58,7 @@ stmts: stmts stmt  { $1@[$2] }
      ;
 
 stmt : ID ASSIGN expr SEMI    { Assign (Var $1, $3) }
+	 | ID PLEQ expr SEMI 	  { Assign (Var $1, (CallFunc ("+", [(VarExp (Var $1)); $3]))) }
      | ID LS expr RS ASSIGN expr SEMI  { Assign (IndexedVar (Var $1, $3), $6) }
      | IF LP cond RP stmt     { If ($3, $5, None) }
      | IF LP cond RP stmt ELSE stmt 
@@ -93,6 +94,8 @@ expr : NUM { IntExp $1  }
      | expr TIMES expr { CallFunc ("*", [$1; $3]) }
      | expr DIV expr { CallFunc ("/", [$1; $3]) }
 	 | expr REM expr { CallFunc ("%", [$1; $3]) }
+	 | expr EXP expr { CallFunc ("^", [$1; $3]) }
+	 | expr PLEQ expr { CallFunc ("+=", [$1; $3])}
      | MINUS expr %prec UMINUS { CallFunc("!", [$2]) }
      | LP expr RP  { $2 }
      ;

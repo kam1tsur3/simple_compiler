@@ -11,6 +11,7 @@ rule lexer = parse
 | digit+ as num  { NUM (int_of_string num) }
 | "if"                    { IF }
 | "else"                  { ELSE }
+| "do"					  { DO }
 | "while"                 { WHILE }
 | "scan"                  { SCAN }
 | "sprint"                { SPRINT }
@@ -33,7 +34,7 @@ rule lexer = parse
 | '*'                     { TIMES }
 | '/'                     { DIV }
 | '%'					  { REM }
-| '^'					  { EXPON }
+| '^'					  { EXP }
 | "++"					  { INC }
 | "+="					  { PLEQ }
 | '{'                     { LB  }
