@@ -112,10 +112,7 @@ L3:	.string "Second integer: "
 	leaq -8(%rax), %rax
 	movq (%rax), %rax
 	pushq %rax
-	pushq $5
-	pushq $4
-	popq %rax
-	addq %rax, (%rsp)
+	pushq $1
 	popq %rax
 	addq %rax, (%rsp)
 	movq %rbp, %rax
@@ -241,5 +238,84 @@ L15:	.string "\n"
 	leaq L15(%rip), %rdi
 	movq $0, %rax
 	callq printf
+	pushq $1
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	popq (%rax)
+L17:
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $0
+	popq %rax
+	popq %rbx
+	cmpq %rax, %rbx
+	jle L16
+	subq $16, %rsp
+	.data
+L18:	.string "Hello\n"
+	.text
+	leaq L18(%rip), %rdi
+	movq $0, %rax
+	callq printf
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $1
+	popq %rax
+	subq %rax, (%rsp)
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	popq (%rax)
+	jmp L17
+L16:
+	subq $16, %rsp
+	.data
+L22:	.string "dowhile\n"
+	.text
+	leaq L22(%rip), %rdi
+	movq $0, %rax
+	callq printf
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $1
+	popq %rax
+	subq %rax, (%rsp)
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	popq (%rax)
+L20:
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $0
+	popq %rax
+	popq %rbx
+	cmpq %rax, %rbx
+	jle L19
+	subq $16, %rsp
+	.data
+L21:	.string "dowhile\n"
+	.text
+	leaq L21(%rip), %rdi
+	movq $0, %rax
+	callq printf
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $1
+	popq %rax
+	subq %rax, (%rsp)
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	popq (%rax)
+	jmp L20
+L19:
 	leaveq
 	retq

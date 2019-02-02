@@ -58,12 +58,13 @@ stmts: stmts stmt  { $1@[$2] }
      ;
 
 stmt : ID ASSIGN expr SEMI    { Assign (Var $1, $3) }
-	 | ID PLEQ expr SEMI 	  { Assign (Var $1, (CallFunc ("+", [(VarExp (Var $1)); $3]))) }
+     | ID PLEQ expr SEMI 	  { Assign (Var $1, (CallFunc ("+", [(VarExp (Var $1)); $3]))) }
      | ID LS expr RS ASSIGN expr SEMI  { Assign (IndexedVar (Var $1, $3), $6) }
      | IF LP cond RP stmt     { If ($3, $5, None) }
      | IF LP cond RP stmt ELSE stmt 
                               { If ($3, $5, Some $7) }
-     | WHILE LP cond RP stmt  { While ($3, $5) }
+     | DO stmt WHILE LP cond RP { Dowhile($2, $5)}      
+	 | WHILE LP cond RP stmt  { While ($3, $5) }
      | SPRINT LP STR RP SEMI  { CallProc ("sprint", [StrExp $3]) }
      | IPRINT LP expr RP SEMI { CallProc ("iprint", [$3]) }
      | SCAN LP ID RP SEMI  { CallProc ("scan", [VarExp (Var $3)]) }
@@ -93,9 +94,9 @@ expr : NUM { IntExp $1  }
      | expr MINUS expr { CallFunc ("-", [$1; $3]) }
      | expr TIMES expr { CallFunc ("*", [$1; $3]) }
      | expr DIV expr { CallFunc ("/", [$1; $3]) }
-	 | expr REM expr { CallFunc ("%", [$1; $3]) }
-	 | expr EXP expr { CallFunc ("^", [$1; $3]) }
-	 | expr PLEQ expr { CallFunc ("+=", [$1; $3])}
+     | expr REM expr { CallFunc ("%", [$1; $3]) }
+     | expr EXP expr { CallFunc ("^", [$1; $3]) }
+     | expr PLEQ expr { CallFunc ("+=", [$1; $3])}
      | MINUS expr %prec UMINUS { CallFunc("!", [$2]) }
      | LP expr RP  { $2 }
      ;

@@ -93,6 +93,7 @@ and type_stmt ast env =
           | Assign (v, e) -> 
                if (type_var v env) != (type_exp e env) then raise (TypeErr "type error 4")
           | If (e,_,_) -> type_cond e env
+		  | Dowhile(_,e) -> type_cond e env
           | While (e,_) -> type_cond e env
           | NilStmt -> ()
 and type_var ast env =

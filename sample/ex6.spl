@@ -1,0 +1,47 @@
+{
+	int a, b, sum, sub, mul, div, rem, exp;
+
+        sprint ("You must give 2 integers.\n");
+        sprint ("First integer: ");
+        scan  (a);
+        sprint ("Second integer: ");
+        scan (b);
+       
+	    sum = a + b;
+		sub = a - b;
+		mul = a * b;
+		div = a / b;
+		rem = a % b;
+		a += 1;
+		
+		sprint ("sum = ");
+        iprint (sum) ;
+        sprint ("\n");
+		sprint ("sub = ");
+        iprint (sub) ;
+        sprint ("\n");
+		sprint ("mul = ");
+        iprint (mul) ;
+        sprint ("\n");
+		sprint ("div = ");
+        iprint (div) ;
+        sprint ("\n");
+		sprint ("rem = ");
+        iprint (rem) ;
+        sprint ("\n");
+		sprint ("a+=9  = ");
+        iprint (a) ;
+        sprint ("\n");
+		a = 1;
+		while(a > 0){
+			sprint("Hello\n");
+			a = a - 1;
+		}
+
+		do{
+			sprint("dowhile\n");
+			a = a - 1;
+		}while(a > 0)
+}
+
+
