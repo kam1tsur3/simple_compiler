@@ -8,8 +8,8 @@ open Ast
 /* File parser.mly */
 %token <int> NUM
 %token <string> STR ID
-%token INT IF WHILE DO SPRINT IPRINT SCAN EQ NEQ GT LT GE LE ELSE RETURN NEW
-%token PLUS MINUS TIMES DIV REM LB RB LS RS LP RP ASSIGN SEMI COMMA TYPE VOID EXP INC PLEQ
+%token INT IF WHILE FOR DO SPRINT IPRINT SCAN EQ NEQ GT LT GE LE ELSE RETURN NEW
+%token PLUS MINUS TIMES DIV REM LB RB LS RS LP RP ASSIGN SEMI COMMA TYPE VOID EXP INC DEC PLEQ CC
 %type <Ast.stmt> prog
 
 
@@ -60,6 +60,7 @@ stmts: stmts stmt  { $1@[$2] }
 stmt : ID ASSIGN expr SEMI    { Assign (Var $1, $3) }
      | ID PLEQ expr SEMI 	  { Assign (Var $1, (CallFunc ("+", [(VarExp (Var $1)); $3]))) }
      | ID INC SEMI			  { Assign (Var $1, (CallFunc ("+", [(VarExp (Var $1)); (IntExp 1)]))) }
+     | ID DEC SEMI			  { Assign (Var $1, (CallFunc ("-", [(VarExp (Var $1)); (IntExp 1)]))) }
      | ID LS expr RS ASSIGN expr SEMI  { Assign (IndexedVar (Var $1, $3), $6) }
      | IF LP cond RP stmt     { If ($3, $5, None) }
      | IF LP cond RP stmt ELSE stmt 

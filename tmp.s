@@ -268,27 +268,6 @@ L17:	.string "\n"
 	leaq L17(%rip), %rdi
 	movq $0, %rax
 	callq printf
-	pushq $1
-	movq %rbp, %rax
-	leaq -8(%rax), %rax
-	popq (%rax)
-L19:
-	movq %rbp, %rax
-	leaq -8(%rax), %rax
-	movq (%rax), %rax
-	pushq %rax
-	pushq $0
-	popq %rax
-	popq %rbx
-	cmpq %rax, %rbx
-	jle L18
-	subq $16, %rsp
-	.data
-L20:	.string "Hello\n"
-	.text
-	leaq L20(%rip), %rdi
-	movq $0, %rax
-	callq printf
 	movq %rbp, %rax
 	leaq -8(%rax), %rax
 	movq (%rax), %rax
@@ -299,53 +278,104 @@ L20:	.string "Hello\n"
 	movq %rbp, %rax
 	leaq -8(%rax), %rax
 	popq (%rax)
-	jmp L19
-L18:
-	subq $16, %rsp
 	.data
-L24:	.string "dowhile\n"
+L18:	.string "a-- = "
 	.text
-	leaq L24(%rip), %rdi
+	leaq L18(%rip), %rdi
 	movq $0, %rax
 	callq printf
 	movq %rbp, %rax
 	leaq -8(%rax), %rax
 	movq (%rax), %rax
 	pushq %rax
-	pushq $1
-	popq %rax
-	subq %rax, (%rsp)
-	movq %rbp, %rax
-	leaq -8(%rax), %rax
-	popq (%rax)
-L22:
-	movq %rbp, %rax
-	leaq -8(%rax), %rax
-	movq (%rax), %rax
-	pushq %rax
-	pushq $0
-	popq %rax
-	popq %rbx
-	cmpq %rax, %rbx
-	jle L21
-	subq $16, %rsp
-	.data
-L23:	.string "dowhile\n"
-	.text
-	leaq L23(%rip), %rdi
+	popq  %rsi
+	leaq IO(%rip), %rdi
 	movq $0, %rax
 	callq printf
-	movq %rbp, %rax
-	leaq -8(%rax), %rax
-	movq (%rax), %rax
-	pushq %rax
+	.data
+L19:	.string "\n"
+	.text
+	leaq L19(%rip), %rdi
+	movq $0, %rax
+	callq printf
 	pushq $1
-	popq %rax
-	subq %rax, (%rsp)
 	movq %rbp, %rax
 	leaq -8(%rax), %rax
 	popq (%rax)
-	jmp L22
 L21:
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $0
+	popq %rax
+	popq %rbx
+	cmpq %rax, %rbx
+	jle L20
+	subq $16, %rsp
+	.data
+L22:	.string "Hello\n"
+	.text
+	leaq L22(%rip), %rdi
+	movq $0, %rax
+	callq printf
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $1
+	popq %rax
+	subq %rax, (%rsp)
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	popq (%rax)
+	jmp L21
+L20:
+	subq $16, %rsp
+	.data
+L26:	.string "dowhile\n"
+	.text
+	leaq L26(%rip), %rdi
+	movq $0, %rax
+	callq printf
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $1
+	popq %rax
+	subq %rax, (%rsp)
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	popq (%rax)
+L24:
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $0
+	popq %rax
+	popq %rbx
+	cmpq %rax, %rbx
+	jle L23
+	subq $16, %rsp
+	.data
+L25:	.string "dowhile\n"
+	.text
+	leaq L25(%rip), %rdi
+	movq $0, %rax
+	callq printf
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	movq (%rax), %rax
+	pushq %rax
+	pushq $1
+	popq %rax
+	subq %rax, (%rsp)
+	movq %rbp, %rax
+	leaq -8(%rax), %rax
+	popq (%rax)
+	jmp L24
+L23:
 	leaveq
 	retq

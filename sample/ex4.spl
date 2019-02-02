@@ -37,6 +37,10 @@
 		sprint ("a++ = ");
 		iprint (a);
 		sprint("\n");
+		a--;
+		sprint ("a-- = ");
+		iprint (a);
+		sprint("\n");
 		a = 1;
 		while(a > 0){
 			sprint("Hello\n");
