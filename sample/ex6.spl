@@ -29,7 +29,7 @@
 		sprint ("rem = ");
         iprint (rem) ;
         sprint ("\n");
-		sprint ("a+=9  = ");
+		sprint ("a+=1  = ");
         iprint (a) ;
         sprint ("\n");
 		a = 1;

@@ -13,6 +13,7 @@ and stmt = Assign of var * exp
 and exp = VarExp of var | StrExp of string | IntExp of int 
         | CallFunc of id * (exp list)
 and dec = FuncDec of id * ((typ*id) list) * typ * stmt
+        | VarDecAssign of typ * id * exp
         | TypeDec of id * typ
         | VarDec of typ * id
 and typ = NameTyp of string

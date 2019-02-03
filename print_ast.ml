@@ -24,6 +24,7 @@ and ast_dec ast = match ast with
                 (List.fold_left (fun str (t,s) -> (semi str) ^ sprintf "(%s,\"%s\")" (ast_typ t) s) "" l)
                 (ast_typ t)
                 (ast_stmt b)
+      | VarDecAssign (t,s,e) -> sprintf "VarDecAssign(%s,\"%s\",%s)" (ast_typ t) s (ast_exp e)
       | VarDec (t,s) -> sprintf "VarDec(%s,\"%s\")" (ast_typ t) s
       | TypeDec (s, t) -> sprintf "TypeDec (\"%s\",%s)" s (ast_typ t)
 and ast_exp ast = match ast with

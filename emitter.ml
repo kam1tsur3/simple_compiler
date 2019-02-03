@@ -53,12 +53,21 @@ let rec trans_dec ast nest tenv env = match ast with
                  ^ epilogue              (* エピローグ *)
    (* 変数宣言の処理 *)
  | VarDec (t,s) -> ()
+ | VarDecAssign (t,s,e) -> ()
    (* 型宣言の処理 *)
  | TypeDec (s,t) -> 
       let entry = tenv s in
          match entry with
              (NAME (_, ty_opt)) -> ty_opt := Some (create_ty t tenv)
            | _ -> raise (Err s)
+and trans_dec_assign ast nest tevn env = match ast with
+ | FuncDec (_,_,_,_) -> ""
+ | TypeDec (_,_) -> ""
+ | VarDec (_,_) -> ""
+ | VarDecAssign(t, s, e) -> 
+	  trans_exp e nest env
+    ^ trans_var (Var s) nest env
+    ^ "\tpopq (%rax)\n"
 (* 文の処理 *)
 and trans_stmt ast nest tenv env = 
                  type_stmt ast env;
@@ -225,22 +234,20 @@ and trans_exp ast nest env = match ast with
 										   ^ "\tpushq %rdx\n"
 				  (* ^のコード *)
 				  | CallFunc ("^", [left; right]) ->
+				  						   let l1 = incLabel() in
+										   let l2 = incLabel() in
 				  							 trans_exp left nest env
 										   ^ trans_exp right nest env
 										   ^ "\tpopq %rbx\n"
-										   ^ "\tpopq %rax\n"
-										   ^ "\tpushq %rdx\n"
-										   ^ "\tmovq $1, %rdx\n"
-										   ^ "EXP:\n"
-										   ^ "\tcmpq $0, %rbx" 
-										   ^ "\tje EEND\n"
-										   ^ "\timulq %rax, %rdx\n"
+										   ^ "\tmovq $1, %rax\n"
+										   ^ sprintf "L%d:\n" l2
+										   ^ "\tcmpq $0, %rbx\n"
+										   ^ sprintf "\tjle L%d\n" l1
+										   ^ "\timulq (%rsp), %rax\n"
 										   ^ "\tsubq $1, %rbx\n"
-										   ^ "\tjmp EXP\n"
-										   ^ "EEND:\n"
-										   ^ "\tmovq %rdx, %rax\n"
-										   ^ "\tpopq %rdx\n"
-										   ^ "\tpushq %rax\n"
+										   ^ sprintf "\tjmp L%d\n" l2
+										   ^ sprintf "L%d:\n" l1
+										   ^ "\tmovq %rax, (%rsp)\n"
                   (* 反転のコード *)
                   | CallFunc("!",  arg::_) -> 
                                              trans_exp arg nest env

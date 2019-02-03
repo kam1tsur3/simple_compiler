@@ -1,0 +1,11 @@
+{
+	int a = 5 + 4;
+	int b = 4;
+	iprint(a);
+	sprint("\n");
+	iprint(b);
+	sprint("\n");
+}
+
+
+

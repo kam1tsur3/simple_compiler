@@ -38,6 +38,8 @@ let rec check_redecl decs tl vl =
                                else check_redecl rest tl (s::vl) 
        | TypeDec (s,_)::rest -> if List.mem s tl then raise (SymErr s)
                                 else check_redecl rest (s::tl) vl 
+       | VarDecAssign (_,s,_)::rest -> if List.mem s vl then raise (SymErr s)
+                               else check_redecl rest tl (s::vl) 
 (* 型式の生成 *)
 let rec create_ty ast tenv =
     match ast with
@@ -61,6 +63,8 @@ let rec type_dec ast (nest,addr) tenv env =
                                     result=create_ty rlt tenv; level=nest+1}) env in (tenv, env', addr)
     (* 変数宣言の処理 *)
     | VarDec (t,s) -> (tenv, 
+              update s (VarEntry {ty= create_ty t tenv; offset=addr-8; level=nest}) env, addr-8)
+    | VarDecAssign (t,s,e) -> (tenv, 
               update s (VarEntry {ty= create_ty t tenv; offset=addr-8; level=nest}) env, addr-8)
     (* 型宣言の処理 *)
     | TypeDec (s,t) -> let tenv' = update s (NAME (s,ref None)) tenv in (tenv', env, addr)
