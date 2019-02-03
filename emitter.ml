@@ -134,8 +134,10 @@ and trans_stmt ast nest tenv env =
                              (* フレームの拡張 *)
                              let ex_frame = sprintf "\tsubq $%d, %%rsp\n" ((-addr'+16)/16*16) in
                                   (* 本体（文列）のコード生成 *)
+								  let code0 = List.fold_left (fun code ast -> code ^ trans_dec_assign ast nest tenv' env') "" dl
+								  in
                                   let code = List.fold_left 
-                                       (fun code ast -> (code ^ trans_stmt ast nest tenv' env')) "" sl
+                                       (fun code ast -> (code ^ trans_stmt ast nest tenv' env')) code0 sl
                                   (* 局所変数分のフレーム拡張の付加 *)
                                   in ex_frame ^ code
                   (* elseなしif文のコード *)

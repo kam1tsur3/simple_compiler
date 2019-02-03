@@ -1,9 +1,13 @@
 {
+	int c;
 	int a = 5 + 4;
 	int b = 4;
+	c = 5;
 	iprint(a);
 	sprint("\n");
 	iprint(b);
+	sprint("\n");
+	iprint(c);
 	sprint("\n");
 }
 
