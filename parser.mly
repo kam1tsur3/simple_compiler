@@ -66,6 +66,7 @@ stmt : ID ASSIGN expr SEMI    { Assign (Var $1, $3) }
      | IF LP cond RP stmt     { If ($3, $5, None) }
      | IF LP cond RP stmt ELSE stmt 
                               { If ($3, $5, Some $7) }
+     | FOR LP ID ASSIGN expr CC expr RP stmt { For(Var $3, $5, $7, $9) }
      | DO stmt WHILE LP cond RP { Dowhile($2, $5)}      
 	 | WHILE LP cond RP stmt  { While ($3, $5) }
      | SPRINT LP STR RP SEMI  { CallProc ("sprint", [StrExp $3]) }

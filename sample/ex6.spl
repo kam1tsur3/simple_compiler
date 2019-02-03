@@ -12,8 +12,6 @@
 		mul = a * b;
 		div = a / b;
 		rem = a % b;
-		a += 1;
-		
 		sprint ("sum = ");
         iprint (sum) ;
         sprint ("\n");
@@ -32,7 +30,7 @@
 		sprint ("a+=1  = ");
         iprint (a) ;
         sprint ("\n");
-		a = 1;
+		a = 0;
 		while(a > 0){
 			sprint("Hello\n");
 			a = a - 1;

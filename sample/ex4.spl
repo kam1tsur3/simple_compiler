@@ -12,8 +12,6 @@
 		mul = a * b;
 		div = a / b;
 		rem = a % b;
-		a += 9;
-		
 		
 		sprint ("sum = ");
         iprint (sum) ;
@@ -41,16 +39,6 @@
 		sprint ("a-- = ");
 		iprint (a);
 		sprint("\n");
-		a = 1;
-		while(a > 0){
-			sprint("Hello\n");
-			a = a - 1;
-		}
-
-		do{
-			sprint("dowhile\n");
-			a = a - 1;
-		}while(a > 0)
 }
 
 

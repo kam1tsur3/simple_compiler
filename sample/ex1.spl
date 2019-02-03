@@ -1,5 +1,5 @@
 {
-	int a, b, sum, sub, mul, div;
+	int a, b, sum, sub, mul, div, rem;
 
         sprint ("You must give 2 integers.\n");
         sprint ("First integer: ");
@@ -10,7 +10,8 @@
 	    sum = a + b;
 		sub = a - b;
 		mul = a * b;
-		div = a % b;
+		div = a / b;
+		rem = a % b;
 		
 		sprint ("sum = ");
         iprint (sum) ;
@@ -23,6 +24,9 @@
         sprint ("\n");
 		sprint ("div = ");
         iprint (div) ;
+        sprint ("\n");
+		sprint ("rem = ");
+        iprint (rem) ;
         sprint ("\n");
 }
 

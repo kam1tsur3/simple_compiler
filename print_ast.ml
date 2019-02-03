@@ -14,6 +14,7 @@ let rec  ast_stmt ast = match ast with
       | If (e,s1,Some s2) -> sprintf "If(%s,%s,Some %s)" (ast_exp e) (ast_stmt s1) (ast_stmt s2)
 	  | Dowhile(s,e) -> sprintf "Dowhile(%s,%s)" (ast_stmt s) (ast_exp e)
       | While (e,s) -> sprintf "While(%s,%s)" (ast_exp e) (ast_stmt s)
+	  | For (v,e1,e2,s) -> sprintf "For(%s,%s,%s,%s)" (ast_var v) (ast_exp e1) (ast_exp e2) (ast_stmt s)
       | NilStmt -> "NilStmt"
 and ast_var ast = match ast with 
         Var s -> sprintf "Var \"%s\"" s

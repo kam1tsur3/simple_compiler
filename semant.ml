@@ -99,6 +99,9 @@ and type_stmt ast env =
           | If (e,_,_) -> type_cond e env
 		  | Dowhile(_,e) -> type_cond e env
           | While (e,_) -> type_cond e env
+		  | For(v,e1,e2,_) -> 
+		  			if (type_var v env) != (type_exp e1 env) then raise (TypeErr "type error 5")
+						else if (type_var v env) != (type_exp e2 env) then raise (TypeErr "type error 6")
           | NilStmt -> ()
 and type_var ast env =
        match ast with

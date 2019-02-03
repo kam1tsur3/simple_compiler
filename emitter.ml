@@ -154,6 +154,22 @@ and trans_stmt ast nest tenv env =
                                                 ^ sprintf "L%d:\n" l1
                                                 ^ trans_stmt s2 nest tenv env 
                                                 ^ sprintf "L%d:\n" l2
+                  | For(v,e1,e2,s) -> let l1 = incLabel() in
+				  					let l2 = incLabel() in
+										 trans_exp e2 nest env
+									   ^ trans_exp e1 nest env
+									   ^ trans_var v nest env
+									   ^ "\tpopq (%rax)\n"
+									   ^ "\tpopq %rbx\n"
+									   ^ sprintf "L%d:\n" l1
+									   ^ "\tcmpq (%rax), %rbx\n"
+									   ^ sprintf "\tje L%d\n" l2
+									   ^ "\tpushq %rax\n"
+									   ^ trans_stmt s nest tenv env
+									   ^ "\tpopq %rax\n"
+									   ^ "\taddq $1, (%rax)\n"
+									   ^ sprintf "\tjmp L%d\n" l1
+									   ^ sprintf "L%d:\n" l2
                   (* dowhile文のコード *)
                   | Dowhile (s,e) -> let (condCode, l1) = trans_cond e nest env in
                                      let l2 = incLabel() in
